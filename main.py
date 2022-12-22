@@ -18,6 +18,8 @@ def main():
     preprocessedOimg = preprocess(oimg)
     cv2.imwrite('output/preprocessedOimg.jpg', preprocessedOimg)
     
+    clusteredImg = kMeans_cluster(preprocessedOimg)
+    cv2.imwrite('output/clusteredImg.jpg', clusteredImg)
 
 
 if __name__ == '__main__':
