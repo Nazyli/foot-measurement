@@ -19,3 +19,9 @@ def kMeans_cluster(img):
     clustered_3D = clustOut.reshape(img.shape[0], img.shape[1], img.shape[2])
     clusteredImg = np.uint8(clustered_3D*255)
     return clusteredImg
+
+def edgeDetection(clusteredImage):
+  edged1 = cv2.Canny(clusteredImage, 0, 255)
+  edged = cv2.dilate(edged1, None, iterations=1)
+  edged = cv2.erode(edged, None, iterations=1)
+  return edged

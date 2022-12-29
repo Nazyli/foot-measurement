@@ -21,6 +21,8 @@ def main():
     clusteredImg = kMeans_cluster(preprocessedOimg)
     cv2.imwrite('output/clusteredImg.jpg', clusteredImg)
 
+    edgedImg = edgeDetection(clusteredImg)
+    cv2.imwrite('output/edgedImg.jpg', edgedImg)
 
 if __name__ == '__main__':
     main()
