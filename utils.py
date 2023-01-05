@@ -1,6 +1,9 @@
 import cv2
 from sklearn.cluster import KMeans
 import numpy as np
+import random as rng
+import matplotlib.pyplot as plt
+
 
 
 def preprocess(img):
@@ -25,3 +28,31 @@ def edgeDetection(clusteredImage):
   edged = cv2.dilate(edged1, None, iterations=1)
   edged = cv2.erode(edged, None, iterations=1)
   return edged
+
+def getBoundingBox(img):
+    contours, _ = cv2.findContours(img, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
+    contours_poly = [None]*len(contours)
+    boundRect = [None]*len(contours)
+    for i, c in enumerate(contours):
+        contours_poly[i] = cv2.approxPolyDP(c, 3, True)
+        boundRect[i] = cv2.boundingRect(contours_poly[i])
+    return boundRect, contours, contours_poly, img
+
+
+def drawCnt(bRect, contours, cntPoly, img):
+
+    drawing = np.zeros((img.shape[0], img.shape[1], 3), dtype=np.uint8)   
+
+
+    paperbb = bRect
+
+    for i in range(len(contours)):
+      color = (rng.randint(0,256), rng.randint(0,256), rng.randint(0,256))
+      cv2.drawContours(drawing, cntPoly, i, color)
+      #cv2.rectangle(drawing, (int(boundRect[i][0]), int(boundRect[i][1])), \
+              #(int(boundRect[i][0]+boundRect[i][2]), int(boundRect[i][1]+boundRect[i][3])), color, 2)
+    cv2.rectangle(drawing, (int(paperbb[0]), int(paperbb[1])), \
+              (int(paperbb[0]+paperbb[2]), int(paperbb[1]+paperbb[3])), color, 2)
+    
+    return drawing

@@ -24,5 +24,10 @@ def main():
     edgedImg = edgeDetection(clusteredImg)
     cv2.imwrite('output/edgedImg.jpg', edgedImg)
 
+    boundRect, contours, contours_poly, img = getBoundingBox(edgedImg)
+    pdraw = drawCnt(boundRect[1], contours, contours_poly, img)
+    cv2.imwrite('output/pdraw.jpg', pdraw)
+
+
 if __name__ == '__main__':
     main()
