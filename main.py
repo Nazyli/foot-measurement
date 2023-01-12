@@ -31,6 +31,15 @@ def main():
     croppedImg, pcropedImg = cropOrig(boundRect[1], clusteredImg)
     cv2.imwrite('output/croppedImg.jpg', croppedImg)    
 
+    newImg = overlayImage(croppedImg, pcropedImg)
+    cv2.imwrite('output/newImg.jpg', newImg)
+
+    fedged = edgeDetection(newImg)
+    fboundRect, fcnt, fcntpoly, fimg = getBoundingBox(fedged)
+    fdraw = drawCnt(fboundRect[2], fcnt, fcntpoly, fimg)
+    cv2.imwrite('output/fdraw.jpg', fdraw)
+
+    print("feet size (cm): ", calcFeetSize(pcropedImg, fboundRect)/10)
 
 if __name__ == '__main__':
     main()

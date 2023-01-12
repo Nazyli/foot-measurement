@@ -69,3 +69,30 @@ def cropOrig(bRect, oimg):
     ix, iy, iw, ih = x+x2, y+y2, crop1.shape[1], crop1.shape[0]
     croppedImg = oimg[iy:iy+ih,ix:ix+iw]
     return croppedImg, pcropedImg
+
+
+def overlayImage(croppedImg, pcropedImg):
+    x1, y1, w1, h1 = 0, 0, pcropedImg.shape[1], pcropedImg.shape[0]
+    y2 = int(h1/10)
+    x2 = int(w1/10)
+    new_image = np.zeros((pcropedImg.shape[0], pcropedImg.shape[1], 3), np.uint8)
+    new_image[:, 0:pcropedImg.shape[1]] = (255, 0, 0) # (B, G, R)
+    new_image[ y1+y2:y1+y2+croppedImg.shape[0], x1+x2:x1+x2+croppedImg.shape[1]] = croppedImg
+    return new_image
+
+def calcFeetSize(pcropedImg, fboundRect):
+  x1, y1, w1, h1 = 0, 0, pcropedImg.shape[1], pcropedImg.shape[0]
+  y2 = int(h1/10)
+  x2 = int(w1/10)
+  fh = y2 + fboundRect[2][3]
+  fw = x2 + fboundRect[2][2]
+  ph = pcropedImg.shape[0]
+  pw = pcropedImg.shape[1]
+  opw = 210
+  oph = 297
+  ofs = 0.0
+  if fw>fh:
+    ofs = (opw/pw)*fw
+  else :
+    ofs = (oph/ph)*fh
+  return ofs
