@@ -56,3 +56,16 @@ def drawCnt(bRect, contours, cntPoly, img):
               (int(paperbb[0]+paperbb[2]), int(paperbb[1]+paperbb[3])), color, 2)
     
     return drawing
+
+def cropOrig(bRect, oimg):
+    # img.shape[0] = height of image
+    # img.shape[1] = width of image
+    x,y,w,h = bRect
+    pcropedImg = oimg[y:y+h,x:x+w]
+    x1, y1, w1, h1 = 0, 0, pcropedImg.shape[1], pcropedImg.shape[0]
+    y2 = int(h1/10)
+    x2 = int(w1/10)
+    crop1 = pcropedImg[y1+y2:h1-y2,x1+x2:w1-x2]
+    ix, iy, iw, ih = x+x2, y+y2, crop1.shape[1], crop1.shape[0]
+    croppedImg = oimg[iy:iy+ih,ix:ix+iw]
+    return croppedImg, pcropedImg

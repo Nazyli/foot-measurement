@@ -28,6 +28,9 @@ def main():
     pdraw = drawCnt(boundRect[1], contours, contours_poly, img)
     cv2.imwrite('output/pdraw.jpg', pdraw)
 
+    croppedImg, pcropedImg = cropOrig(boundRect[1], clusteredImg)
+    cv2.imwrite('output/croppedImg.jpg', croppedImg)    
+
 
 if __name__ == '__main__':
     main()
